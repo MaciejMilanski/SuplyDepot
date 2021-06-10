@@ -1,0 +1,43 @@
+﻿@page "/itemcreate"
+@inject HttpClient http
+@inject NavigationManager uriHelper
+@using SupplyDepot.Shared
+
+<EditForm Model="@item" OnValidSubmit="@Create">
+    <div class="form-group">
+        <label>Name:</label>
+        <div>
+            <InputText @bind-Value="item.Name" />
+        </div>
+        <label>Designation:</label>
+        <div>
+            <InputText @bind-Value="item.Designation" />
+        </div>
+        <label>Type:</label>
+        <div>
+            <InputText @bind-Value="item.Type" />
+        </div>
+        <label>Value:</label>
+        <div>
+            <InputNumber @bind-Value="item.Value" />
+        </div>
+
+    </div>
+
+    <button type="submit" class="btn btn-success">Submit</button>
+
+</EditForm>
+
+@code { 
+    //[Parameter] public Person Person { get; set; }
+    //        [Parameter] public string ButtonText { get; set; } = "Save Person";
+    //        [Parameter] public EventCallback OnValidSubmit { get; set; }
+
+    Item item = new Item();
+    public void Create()
+    {
+        //await http.PostJsonAsync("api/people", item);
+        //uriHelper.NavigateTo("people");
+        
+    }
+}
