@@ -1,0 +1,29 @@
+﻿<EditForm Model="@Item" OnValidSubmit="@OnSubmit">
+    <div class="form-group">
+        <label>Name:</label>
+        <div>
+            <InputText @bind-Value="@Item.Name" />
+        </div>
+        <label>Designation:</label>
+        <div>
+            <InputText @bind-Value="@Item.Designation" />
+        </div>
+        <label>Type:</label>
+        <div>
+            <InputText @bind-Value="@Item.Type" />
+        </div>
+        <label>Value:</label>
+        <div>
+            <InputNumber @bind-Value="@Item.Value" />
+        </div>
+
+    </div>
+
+    <button type="submit" class="btn btn-success">Submit</button>
+
+</EditForm>
+@code 
+{ 
+    [Parameter] public SupplyDepot.Shared.Item Item { get; set; }
+    [Parameter] public EventCallback OnSubmit { get; set; } 
+}

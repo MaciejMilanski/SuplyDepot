@@ -1,0 +1,15 @@
+﻿@page "/itemcreate"
+@inject HttpClient http
+@inject NavigationManager navigation
+@using SupplyDepot.Shared
+
+<ItemForm Item="@item" OnSubmit ="@Create" />
+
+@code { 
+    Item item = new Item();
+    public async Task Create()
+    {
+        await http.PostAsJsonAsync("api/ItemsManag/create-item", item);
+        navigation.NavigateTo("itemsgetall");
+    }
+}

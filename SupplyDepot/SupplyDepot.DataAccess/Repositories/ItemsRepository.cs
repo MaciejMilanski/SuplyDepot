@@ -22,5 +22,36 @@ namespace SupplyDepot.DataAccess.Repositories
         {
             return await _context.Items.ToListAsync();
         }
+        public async Task ItemAdd(Item item)
+        {
+            await _context.Items.AddAsync(item);
+            await _context.SaveChangesAsync();
+        }
+        public async Task ItemDeleteAsync(int itemId) 
+        {
+            try
+            {
+                var itemToDelete = _context.Items.Single(x => x.Id == itemId);
+                _context.Items.Remove(itemToDelete);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex) { }
+        }
+        public async Task ItemUpdateAsync(Item item) 
+        {
+            _context.Items.Update(item);
+            await _context.SaveChangesAsync();
+        }
+        public Item GetItem(int id)
+        {  
+            try
+            {
+                return  _context.Items.Single(x => x.Id == id);
+            }
+            catch (Exception ex) 
+            {
+                return null;
+            }
+        }
     }
 }

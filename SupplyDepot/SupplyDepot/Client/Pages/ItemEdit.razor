@@ -1,0 +1,23 @@
+﻿@page "/itemedit/{itemId:int}"
+@inject HttpClient http
+@inject NavigationManager navigation
+@using SupplyDepot.Shared
+
+<ItemForm Item="item" OnSubmit="@Edit" />
+
+@code {
+
+    [Parameter] public int itemId { get; set; }
+    Item item = new Item();
+
+    protected async override Task OnParametersSetAsync()
+    {
+        item = await http.GetFromJsonAsync<Item>($"api/ItemsManag/get-item/{itemId}");
+    }
+
+    async Task Edit()
+    {
+        await http.PutAsJsonAsync("api/ItemsManag/update-item", item);
+        navigation.NavigateTo("itemsgetall");
+    }
+}
