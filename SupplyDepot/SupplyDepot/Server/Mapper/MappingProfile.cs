@@ -11,6 +11,9 @@ namespace SupplyDepot.Server.Mapper
         {
             CreateMap<DataAccess.Models.Item, Shared.Item>();
             CreateMap<Shared.Item, DataAccess.Models.Item>();
+
+            CreateMap<DataAccess.Models.Type, Shared.Type>();
+            CreateMap<Shared.Type, DataAccess.Models.Type>();
         }
 
 

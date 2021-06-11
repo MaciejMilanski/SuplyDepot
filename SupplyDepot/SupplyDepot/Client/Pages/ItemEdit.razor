@@ -2,8 +2,9 @@
 @inject HttpClient http
 @inject NavigationManager navigation
 @using SupplyDepot.Shared
+@using SupplyDepot.Client.DTOService;
 
-<ItemForm Item="item" OnSubmit="@Edit" />
+<ItemForm Item="item" Mode="2" OnSubmit="@Edit" />
 
 @code {
 
@@ -12,7 +13,16 @@
 
     protected async override Task OnParametersSetAsync()
     {
-        item = await http.GetFromJsonAsync<Item>($"api/ItemsManag/get-item/{itemId}");
+        if (ItemDto.GetInstance() != null)
+        {
+            item.Id = ItemDto.GetInstance().Id;
+            item.Name = ItemDto.GetInstance().Name;
+            item.Designation = ItemDto.GetInstance().Designation;
+            item.Type = ItemDto.GetInstance().Type;
+            item.Value = ItemDto.GetInstance().Value;
+        }
+        else
+            item = await http.GetFromJsonAsync<Item>($"api/ItemsManag/get-item/{itemId}");
     }
 
     async Task Edit()

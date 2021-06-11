@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SupplyDepot.DataAccess;
 
 namespace SupplyDepot.DataAccess.Migrations
 {
     [DbContext(typeof(SupplyDepotContext))]
-    partial class SupplyDepotContextModelSnapshot : ModelSnapshot
+    [Migration("20210611172041_alter-field-name")]
+    partial class alterfieldname
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

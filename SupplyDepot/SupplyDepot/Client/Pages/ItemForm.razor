@@ -1,4 +1,6 @@
-﻿<EditForm Model="@Item" OnValidSubmit="@OnSubmit">
+﻿@inject NavigationManager navigation
+@using SupplyDepot.Client.DTOService;
+<EditForm Model="@Item" OnValidSubmit="@OnSubmit">
     <div class="form-group">
         <label>Name:</label>
         <div>
@@ -9,8 +11,9 @@
             <InputText @bind-Value="@Item.Designation" />
         </div>
         <label>Type:</label>
-        <div>
+        <div style="display:flex">
             <InputText @bind-Value="@Item.Type" />
+            <button class="btn btn-success" @onclick="@(() => GoToDict())">Dictionary</button>
         </div>
         <label>Value:</label>
         <div>
@@ -22,8 +25,17 @@
     <button type="submit" class="btn btn-success">Submit</button>
 
 </EditForm>
-@code 
-{ 
+@code
+{
+    bool disabled = false;
     [Parameter] public SupplyDepot.Shared.Item Item { get; set; }
-    [Parameter] public EventCallback OnSubmit { get; set; } 
+    [Parameter] public EventCallback OnSubmit { get; set; }
+    [Parameter] public int Mode { get; set; }
+
+    async Task GoToDict()
+    {
+        var typeDto = ItemDto.GetInstance(Item.Id, Item.Name, Item.Value, Item.Designation, Item.Type, Mode);
+        navigation.NavigateTo("/typesdictionary");
+
+    }
 }

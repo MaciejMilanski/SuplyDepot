@@ -2,11 +2,24 @@
 @inject HttpClient http
 @inject NavigationManager navigation
 @using SupplyDepot.Shared
+@using SupplyDepot.Client.DTOService;
 
-<ItemForm Item="@item" OnSubmit ="@Create" />
+<ItemForm Item="@item" Mode="1" OnSubmit ="@Create" />
 
 @code { 
     Item item = new Item();
+    protected async override Task OnParametersSetAsync()
+    {
+        if (ItemDto.GetInstance() != null)
+        {
+            item.Id = ItemDto.GetInstance().Id;
+            item.Name = ItemDto.GetInstance().Name;
+            item.Designation = ItemDto.GetInstance().Designation;
+            item.Type= ItemDto.GetInstance().Type;
+            item.Value = ItemDto.GetInstance().Value;
+        }
+    }
+
     public async Task Create()
     {
         await http.PostAsJsonAsync("api/ItemsManag/create-item", item);

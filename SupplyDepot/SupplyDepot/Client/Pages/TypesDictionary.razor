@@ -1,0 +1,60 @@
+﻿@page "/typesdictionary"
+
+@inject HttpClient Http
+@inject NavigationManager navigation
+
+@using SupplyDepot.Shared;
+@using SupplyDepot.Client.DTOService;
+
+<h1>Avalible Items</h1>
+
+@if (types == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="form-group">
+        <a class="btn btn-success" href="itemCreate">New Item</a>
+    </div>
+    <table class="table">
+
+        <tbody>
+            @foreach (var type in types)
+            {
+                <tr>
+                    <td>@type.Id.ToString()</td>
+                    <td>@type.Name.ToString()</td>
+                    <td><button class="btn btn-success" @onclick="@(() => ChoseType(type))">Choose</button></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private SupplyDepot.Shared.Type[] types;
+    private ItemDto item;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadItems();
+        item = ItemDto.GetInstance();
+    }
+
+    private async Task LoadItems()
+    {
+        types = await Http.GetFromJsonAsync<SupplyDepot.Shared.Type[]>("api/Types/list-types");
+    }
+
+    private async Task ChoseType(SupplyDepot.Shared.Type type)
+    {
+        item.Type = type.Name;
+        if (item.Mode == 1)
+            navigation.NavigateTo("/itemcreate");
+        else
+            navigation.NavigateTo($"/itemedit/{item.Id}");
+
+    }
+
+}

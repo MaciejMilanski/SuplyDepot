@@ -37,6 +37,7 @@ namespace SupplyDepot.Server
             services.AddRazorPages();
             services.AddAutoMapper(typeof(MappingProfile));
             services.AddScoped<IItemsRepository, ItemsRepository>();
+            services.AddScoped<ITypesRepository, TypesRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
