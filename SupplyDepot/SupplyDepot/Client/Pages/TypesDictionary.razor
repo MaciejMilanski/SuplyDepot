@@ -2,11 +2,12 @@
 
 @inject HttpClient Http
 @inject NavigationManager navigation
-
+@inject IJSRuntime JSRuntime
 @using SupplyDepot.Shared;
 @using SupplyDepot.Client.DTOService;
-
-<h1>Avalible Items</h1>
+@using System.IO;
+@using ClosedXML.Excel;  
+<h1>Avalible Types</h1>
 
 @if (types == null)
 {
@@ -22,11 +23,13 @@ else
         <tbody>
             @foreach (var type in types)
             {
-                <tr>
-                    <td>@type.Id.ToString()</td>
-                    <td>@type.Name.ToString()</td>
-                    <td><button class="btn btn-success" @onclick="@(() => ChoseType(type))">Choose</button></td>
-                </tr>
+            <tr>
+                <td>@type.Id.ToString()</td>
+                <td>@type.Name.ToString()</td>
+                <td><button class="btn btn-success" @onclick="@(() => ChoseType(type))">Choose</button></td>
+                <td><button class="btn btn-danger" @onclick="@(() => GetDetails(type))">Get Details</button></td>
+                <td><button class="btn btn-primary" @onclick="@(() => Export(type))">Export</button></td>
+            </tr>
             }
         </tbody>
     </table>
@@ -54,6 +57,21 @@ else
             navigation.NavigateTo("/itemcreate");
         else
             navigation.NavigateTo($"/itemedit/{item.Id}");
+
+    }
+    async Task GetDetails(SupplyDepot.Shared.Type type)
+    {
+        DetailsDto.GetInstance().Adapter(type);
+        navigation.NavigateTo("/details");
+    }
+    async Task Export(SupplyDepot.Shared.Type type)
+    {
+        ExportVisitor exportVisitor = new ExportVisitor();
+        var stream = new MemoryStream();
+        type.Export(exportVisitor).SaveAs(stream);
+        var content = stream.ToArray();
+        var fileName = "Type.xlsx";
+        await JSRuntime.InvokeAsync<object>("saveAsFile", fileName, Convert.ToBase64String(content));
 
     }
 

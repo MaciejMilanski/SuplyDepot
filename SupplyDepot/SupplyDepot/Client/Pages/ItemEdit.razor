@@ -15,11 +15,10 @@
     {
         if (ItemDto.GetInstance() != null)
         {
-            item.Id = ItemDto.GetInstance().Id;
-            item.Name = ItemDto.GetInstance().Name;
-            item.Designation = ItemDto.GetInstance().Designation;
-            item.Type = ItemDto.GetInstance().Type;
-            item.Value = ItemDto.GetInstance().Value;
+            if (ItemDto.GetInstance().Id != 0)
+            {
+                item = ItemDto.GetInstance().ToItem();
+            }
         }
         else
             item = await http.GetFromJsonAsync<Item>($"api/ItemsManag/get-item/{itemId}");
@@ -28,6 +27,7 @@
     async Task Edit()
     {
         await http.PutAsJsonAsync("api/ItemsManag/update-item", item);
+        ItemDto.ClearInstance();
         navigation.NavigateTo("itemsgetall");
     }
 }

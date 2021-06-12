@@ -12,17 +12,14 @@
     {
         if (ItemDto.GetInstance() != null)
         {
-            item.Id = ItemDto.GetInstance().Id;
-            item.Name = ItemDto.GetInstance().Name;
-            item.Designation = ItemDto.GetInstance().Designation;
-            item.Type= ItemDto.GetInstance().Type;
-            item.Value = ItemDto.GetInstance().Value;
+            item = ItemDto.GetInstance().ToItem();
         }
     }
 
-    public async Task Create()
+    async Task Create()
     {
         await http.PostAsJsonAsync("api/ItemsManag/create-item", item);
+        ItemDto.ClearInstance();
         navigation.NavigateTo("itemsgetall");
     }
 }

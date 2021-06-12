@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SupplyDepot.Shared", "Suppl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SupplyDepot.DataAccess", "SupplyDepot.DataAccess\SupplyDepot.DataAccess.csproj", "{ED82EB2A-028C-4201-8508-B91EDB6929F6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SupplyDepot.Test", "SupplyDepot.Test\SupplyDepot.Test.csproj", "{88A736F0-1C07-47D2-B48A-02AD048CDBB4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{ED82EB2A-028C-4201-8508-B91EDB6929F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ED82EB2A-028C-4201-8508-B91EDB6929F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ED82EB2A-028C-4201-8508-B91EDB6929F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{88A736F0-1C07-47D2-B48A-02AD048CDBB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88A736F0-1C07-47D2-B48A-02AD048CDBB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88A736F0-1C07-47D2-B48A-02AD048CDBB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88A736F0-1C07-47D2-B48A-02AD048CDBB4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

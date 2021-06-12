@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+using SupplyDepot.Shared;
 namespace SupplyDepot.Client.DTOService
 {
     public class ItemDto
@@ -19,6 +20,9 @@ namespace SupplyDepot.Client.DTOService
 
         private static ItemDto _instance;
         private static readonly object _lock = new object();
+
+
+        
 
         public static ItemDto GetInstance(int id, string name, double value, string designation, string type, int mode)
         {
@@ -47,6 +51,24 @@ namespace SupplyDepot.Client.DTOService
                 }
             }
             return _instance;
+        }
+        public static void ClearInstance() 
+        {
+            _instance.Id = 0;
+            _instance.Name = "";
+            _instance.Designation = "";
+            _instance.Type = "";
+            _instance.Value = 0;
+        }
+        public Item ToItem() 
+        {
+            Item item = new Item();
+            item.Id = this.Id;
+            item.Name = this.Name;
+            item.Value = this.Value;
+            item.Designation = this.Designation;
+            item.Type = this.Type;
+            return item;
         }
         public int Id { get; set; }
         public string Name { get; set; }

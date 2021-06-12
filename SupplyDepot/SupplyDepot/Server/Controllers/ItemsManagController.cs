@@ -87,5 +87,20 @@ namespace SupplyDepot.Server.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+        [HttpPost("copy-item")]
+        public async Task<IActionResult> Copy(Shared.Item itemShared)
+        {
+            try
+            {
+                Shared.Item item = itemShared.ShallowCopy();
+                var itemDA = _mapper.Map<DataAccess.Models.Item>(item);
+                await _itemsRepository.ItemAdd(itemDA);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
     }
 }

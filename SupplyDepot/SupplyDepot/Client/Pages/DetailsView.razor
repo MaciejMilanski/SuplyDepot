@@ -1,0 +1,32 @@
+﻿@page "/details"
+
+@inject HttpClient Http
+@inject NavigationManager navigation
+
+@using SupplyDepot.Shared;
+@using SupplyDepot.Client.DTOService;
+
+<table class="table">
+
+    <tbody>
+        <tr>
+            <td>@details</td>
+        </tr>
+        <tr>
+            <td><button class="btn btn-success" @onclick="@(() => Ok())">Ok</button></td>
+        </tr>
+    </tbody>
+</table>
+
+@code {
+    string details;
+    protected async override Task OnParametersSetAsync()
+    {
+        details = DetailsDto.GetInstance().GetDetails();
+    }
+    public void Ok()
+    {
+        DetailsDto.GetInstance().ReleaseAdapter();
+        navigation.NavigateTo("itemsgetall");
+    }
+}

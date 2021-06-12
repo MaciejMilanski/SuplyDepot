@@ -1,7 +1,11 @@
 ﻿@page "/itemsgetall"
 @using SupplyDepot.Shared
 @inject HttpClient Http
-
+@inject NavigationManager navigation
+@inject IJSRuntime JSRuntime 
+@using SupplyDepot.Client.DTOService;
+@using ClosedXML.Excel; 
+@using System.IO; 
 <h1>Avalible Items</h1>
 
 @if (items == null)
@@ -23,8 +27,11 @@ else
                 <td>@item.Name.ToString()</td>
                 <td>@item.Type.ToString()</td>
                 <td>@item.Value.ToString()</td>
+                <td><button class="btn btn-secondary" @onclick="@(() => Copy(item))">Copy</button></td>
+                <td><button class="btn btn-danger" @onclick="@(() => GetDetails(item))">Get Details</button></td>
                 <td><a class="btn btn-success" href="itemedit/@item.Id">Edit</a></td>
                 <td><button class="btn btn-danger" @onclick="@(() => DeleteItem(item.Id))">Delete</button></td>
+                <td><button class="btn btn-primary" @onclick="@(() => Export(item))">Export</button></td>
             </tr>
             }
         </tbody>
@@ -56,5 +63,32 @@ else
             Console.WriteLine($"[INDEX] BŁĄD: [{request.StatusCode.ToString()}]");
         }
     }
+    async Task Copy(Item item)
+    {
+        var request = await Http.PostAsJsonAsync("api/ItemsManag/copy-item", item);
+        if (request.IsSuccessStatusCode)
+        {
+            await LoadItems();
+        }
+        else
+        {
+            Console.WriteLine($"[INDEX] BŁĄD: [{request.StatusCode.ToString()}]");
+        }
+    }
+    async Task GetDetails(Item item)
+    {
+        DetailsDto.GetInstance().Adapter(item);
+        navigation.NavigateTo("/details");
+    }
+    async Task Export(Item item)
+    {
 
+        ExportVisitor exportVisitor = new ExportVisitor();
+        var stream = new MemoryStream();
+        item.Export(exportVisitor).SaveAs(stream);
+        var content = stream.ToArray();
+        var fileName = "Items.xlsx";
+        await JSRuntime.InvokeAsync<object>("saveAsFile", fileName, Convert.ToBase64String(content));
+
+    }
 }
